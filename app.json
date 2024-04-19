@@ -25,6 +25,20 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
-  }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e66b9b4d-e2d9-455f-b25a-d95826763973"
+      }
+    },
+    "owner": "devfaerun"
+  },
+  "plugins": [
+    [
+      "expo-image-picker",
+      {
+        "photosPermission": "O aplicativo acessa suas fotos para permitir que você as escolha sua foto de perfil."
+      }
+    ]
+  ]
 }
