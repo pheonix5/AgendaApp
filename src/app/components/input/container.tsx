@@ -6,11 +6,10 @@ type InputProps = ViewProps & {
   isFocused?: boolean
 }
 
-export function InputContainer({isFocused, className, children }: InputProps) {
+export function InputContainer({ className, children }: InputProps) {
   return (
-    <View className={clsx(`flex-row gap-4 bg-white p-3 px-4 rounded-md ${className}`,
-      isFocused && 'bg-cyan-100'
-    )}>
+    <View className={`flex-row gap-4 bg-white p-3 px-4 rounded-md ${className}`}
+    >
       {children}
     </View>
   )

@@ -3,7 +3,7 @@ import { View, ViewProps, Text } from 'react-native'
 type InputRootProps = ViewProps & {
   erroMessage?: string | null
   children: React.ReactNode
-  tipoAcao: 'cadastro' | 'login'
+  tipoAcao?: 'cadastro' | 'login'
 }
 
 export function InputRoot({tipoAcao ,erroMessage, className,  children }: InputRootProps) {

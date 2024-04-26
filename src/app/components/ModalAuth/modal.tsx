@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import { View, TouchableWithoutFeedback, Text, TouchableOpacityProps, TouchableOpacity, ActivityIndicator } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm, Controller, UseFormSetValue } from 'react-hook-form'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { Fontisto, FontAwesome6, Ionicons } from '@expo/vector-icons'
@@ -11,7 +12,6 @@ import * as yup from 'yup'
 import { Input } from '../input';
 import { theme } from '@/theme/theme';
 import { Button } from '../button';
-import { useState } from 'react';
 import { useUserStorage } from '@/store/user';
 
 
@@ -44,6 +44,7 @@ export default function ModalAuth({ tipoAcao, setTipoAcao, setModalVisible }: Mo
     mode: 'onChange',
     resolver: yupResolver<UserFormDataProps>(authSchema)
   })
+
 
   async function handleAuthCreate(data: UserFormDataProps) {
     const { email, senha } = data;
