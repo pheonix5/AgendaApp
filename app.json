@@ -31,7 +31,10 @@
         "projectId": "e66b9b4d-e2d9-455f-b25a-d95826763973"
       }
     },
-    "owner": "devfaerun"
+    "owner": "devfaerun",
+    "plugins": [
+      "expo-font"
+    ]
   },
   "plugins": [
     [

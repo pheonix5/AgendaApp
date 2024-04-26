@@ -1,9 +1,13 @@
+import { theme } from "./src/theme/theme"
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/app/**/*.{ts,tsx}"],
+  content: ["./src/**/*.{ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: theme.fontFamily,
+      colors: theme.color,
+    },
   },
   plugins: [],
 }
