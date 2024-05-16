@@ -8,7 +8,7 @@ import ModalAuth from '@/app/components/ModalAuth/modal';
 
 export default function Login() {
   const [showModal, setShowModal] = useState(false);
-  const [acaoTipo, setAcaoTipo] = useState<'cadastro'|'login'>('cadastro')
+  const [acaoTipo, setAcaoTipo] = useState<'cadastro' | 'login'>('cadastro')
 
   function handleShowModal(tipoAcao: 'cadastro' | 'login') {
     setShowModal(true)
@@ -23,18 +23,16 @@ export default function Login() {
       className='items-center flex-1'
     >
 
-      <View className='w-full mb-10 justify-center items-center -mt-10'>
-        <Image
+      <View className='w-full flex-1 mb-10 justify-center items-center '>
+        {/* <Image
           source={logo}
           className='w-[320]'
           resizeMode='contain'
-        />
+        /> */}
       </View>
 
 
-      <View className='w-full items-center justify-center  gap-8 px-10 mt-32'>
-
-
+      <View className='w-full flex-1 items-center justify-center  gap-8 px-10 mt-32'>
         {!showModal && (
           <>
             <Button.Root variant='rounded' onPress={() => handleShowModal('cadastro')}>

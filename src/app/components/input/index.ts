@@ -3,6 +3,7 @@ import { InputContainer } from './container'
 import { InputLabel } from './label'
 import { Input as TextInput } from './input'
 import { InputIcon } from './icon'
+import { InputMask } from './inputMask'
 
 
 
@@ -11,5 +12,6 @@ export const Input = {
   Container: InputContainer,
   Label: InputLabel,
   Input: TextInput,
+  Mask: InputMask,
   Icon: InputIcon
 }

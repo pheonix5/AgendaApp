@@ -3,7 +3,7 @@ import { View, TouchableWithoutFeedback, Text, TouchableOpacityProps, TouchableO
 
 import { LinearGradient } from 'expo-linear-gradient'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, Controller, UseFormSetValue } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { Fontisto, FontAwesome6, Ionicons } from '@expo/vector-icons'
@@ -48,7 +48,7 @@ export default function ModalAuth({ tipoAcao, setTipoAcao, setModalVisible }: Mo
 
   async function handleAuthCreate(data: UserFormDataProps) {
     const { email, senha } = data;
-    await register(email, senha, tipoAcao);
+    await register(email.toLocaleLowerCase(), senha, tipoAcao);
   }
 
   return (
@@ -58,7 +58,7 @@ export default function ModalAuth({ tipoAcao, setTipoAcao, setModalVisible }: Mo
       </TouchableWithoutFeedback>
 
 
-      <View className=' relative w-full h-[75%] rounded-t-[32px] overflow-hidden'>
+      <View className='relative w-full h-[75%] rounded-t-[32px] overflow-hidden'>
         <LinearGradient
           className='w-full h-full opacity-65'
           colors={['#1199EE', '#045FC7']}
@@ -66,7 +66,7 @@ export default function ModalAuth({ tipoAcao, setTipoAcao, setModalVisible }: Mo
 
         <KeyboardAwareScrollView className={`absolute h-full ${ABSOLUTFILL} py-10 px-6`}>
 
-          <View className='flex flex-col items-start mb-10'>
+          <View className='flex-col items-start mb-10'>
             <Text className='text-white text-3xl font-medium'>Agendamento Online -</Text>
             {tipoAcao === 'cadastro' ? (
               <Text className='text-white text-3xl leading-[3rem] font-medium'>Criar Conta</Text>
@@ -75,14 +75,13 @@ export default function ModalAuth({ tipoAcao, setTipoAcao, setModalVisible }: Mo
             )}
           </View>
 
-          <View className='gap-3'>
-
+          <View className='flex-1 gap-3'>
             <Controller
               control={control}
               name='email'
               render={({ field: { onChange } }) => (
                 <Input.Root erroMessage={errors.email?.message} tipoAcao={tipoAcao}>
-                  <Input.Label label='E-mail' />
+                  <Input.Label label='E-mail' className='text-white' />
                   <Input.Container>
                     <Input.Icon icon={<Fontisto name="email" color={theme.color.ligthGray[300]} size={24} />} />
                     <Input.Input
@@ -100,7 +99,7 @@ export default function ModalAuth({ tipoAcao, setTipoAcao, setModalVisible }: Mo
               name='senha'
               render={({ field: { onChange } }) => (
                 <Input.Root erroMessage={errors.senha?.message} tipoAcao={tipoAcao}>
-                  <Input.Label label='Senha' />
+                  <Input.Label label='Senha' className='text-white' />
                   <Input.Container className='justify-between'>
                     <Input.Input
                       placeholder='Senha'
@@ -135,25 +134,25 @@ export default function ModalAuth({ tipoAcao, setTipoAcao, setModalVisible }: Mo
                 </>
               )}
             </Button.Root>
+          </View>
 
-
+          <View className='w-full mt-4 justify-center items-center'>
             {tipoAcao === 'cadastro' ? (
               <>
-                <Text className='text-white text-center text-base mt-6 -mb-2'>Já Possui uma Conta?</Text>
+                <Text className='text-white text-center text-base'>Já Possui uma Conta?</Text>
                 <TouchableOpacity className='self-center' onPress={() => setTipoAcao('login')}>
                   <Text className='text-white text-xl font-titulo'>Fazer Login</Text>
                 </TouchableOpacity>
               </>
             ) : (
-              <View className='w-full flex-row items-center mt-6 gap-2 justify-center'>
+              <View className='w-full flex-row items-center justify-center gap-2 '>
                 <Text className='text-white text-center text-base'>Não tem conta?</Text>
 
-                <TouchableOpacity className='self-center' onPress={() => setTipoAcao('cadastro')}>
+                <TouchableOpacity onPress={() => setTipoAcao('cadastro')}>
                   <Text className='text-white text-xl font-titulo'>Criar Conta</Text>
                 </TouchableOpacity>
               </View>
             )}
-
           </View>
         </KeyboardAwareScrollView>
       </View>

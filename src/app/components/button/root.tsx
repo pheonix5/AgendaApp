@@ -16,7 +16,7 @@ export function ButtonRoot({ children, className, variant, ...rest }: ButtonProp
     <>
       <TouchableOpacity
       className={clsx(
-        `flex flex-row w-full items-center justify-center py-4 ${className}`,
+        `flex flex-row w-full items-center justify-center py-3 ${className}`,
         variant ? Variantes[variant] : 'bg-gray-200 rounded-md'
       )}
       style={styles.shadow}

@@ -1,25 +1,39 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "@/app/pages/login/login";
+
 import Agenda from "@/app/pages/agenda/agenda";
+import Agendamento from "@/app/pages/agendamento/agendamento";
+import { DiasProps, HorarioProps } from "@/utils/AgendaData";
 
 
-const Stack = createNativeStackNavigator();
+export type AgendaStackParamList = {
+  Agenda: undefined;
+  Agendamento: {horario: HorarioProps, dia?: DiasProps, indexHora?: number};
+}
 
-export default function StackAgenda(){
-  return(
+
+const Stack = createNativeStackNavigator<AgendaStackParamList>();
+
+export default function StackAgenda() {
+  return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        
-        contentStyle:{
+
+        contentStyle: {
           paddingTop: 25
         }
       }}
     >
 
-      <Stack.Screen 
+      <Stack.Screen
         name="Agenda"
         component={Agenda}
+      />
+
+      <Stack.Screen
+        name="Agendamento"
+        component={Agendamento}
       />
     </Stack.Navigator>
   )

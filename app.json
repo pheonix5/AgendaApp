@@ -41,6 +41,10 @@
       "expo-image-picker",
       {
         "photosPermission": "O aplicativo acessa suas fotos para permitir que você as escolha sua foto de perfil."
+      },
+      "expo-document-picker",
+      {
+        "iCloudContainerEnvironment": "Production"
       }
     ]
   ]

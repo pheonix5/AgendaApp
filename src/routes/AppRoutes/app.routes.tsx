@@ -6,6 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import StackAgenda from "./stackagenda";
+import Perfil from "@/app/pages/perfil/perfil";
 
 const Tab = createBottomTabNavigator();
 
@@ -41,7 +42,7 @@ export default function TabHome() {
         }}
       />
 
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Perfil"
         component={Perfil}
         options={{
@@ -50,7 +51,7 @@ export default function TabHome() {
             return <MaterialCommunityIcons name="account-edit" color={color} size={size} />
           }
         }}
-      /> */}
+      />
     </Tab.Navigator>
   )
 }

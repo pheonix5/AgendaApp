@@ -30,7 +30,7 @@ export function Avatar({ avatar, ...rest }: AvatarProps) {
         ) : (
           <View className='w-40 h-40 bg-ligthGray-300 rounded-full' />
         )}
-        <Animated.View className='absolute z-50 opacity-70' style={animatedStyle}>
+        <Animated.View className='absolute z-50 opacity-80' style={animatedStyle}>
           <Feather
             name="upload"
             size={24}
