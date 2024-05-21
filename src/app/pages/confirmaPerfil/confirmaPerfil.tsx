@@ -79,6 +79,7 @@ export default function ConfirmaPerfil() {
           const end = url.indexOf('.pdf', start) + 4;
           return url.substring(start, end);
         };
+
   
         const docName = extractDocName(userData.imageAdress);
         setDocName(docName);
@@ -116,7 +117,6 @@ export default function ConfirmaPerfil() {
       Alert.alert('Atenção', 'É necessário enviar um comprovante de endereço')
       return;
     }
-
 
     const dataSave = {
       ...data,

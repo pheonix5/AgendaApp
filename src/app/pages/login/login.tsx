@@ -24,11 +24,11 @@ export default function Login() {
     >
 
       <View className='w-full flex-1 mb-10 justify-center items-center '>
-        {/* <Image
+        <Image
           source={logo}
           className='w-[320]'
           resizeMode='contain'
-        /> */}
+        />
       </View>
 
 

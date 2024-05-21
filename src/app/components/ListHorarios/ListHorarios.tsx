@@ -12,9 +12,10 @@ type AgendaVagasProps = {
   data: HorarioProps;
   diaSelecionado?: DiasProps;
   indexHora: number;
+  indexDia: number;
 }
 
-export function ListHorarios({ data, diaSelecionado, indexHora }: AgendaVagasProps) {
+export function ListHorarios({ data, diaSelecionado, indexHora, indexDia }: AgendaVagasProps) {
   const navigation = useNavigation<NativeStackNavigationProp<AgendaStackParamList>>();
 
   const DataCompleta = format(diaSelecionado?.date?.toDate() || new Date(), 'dd/MM/yyyy', { locale: ptBR });
@@ -22,7 +23,7 @@ export function ListHorarios({ data, diaSelecionado, indexHora }: AgendaVagasPro
   return (
     <TouchableOpacity
       className='w-full border border-Cblue-300 rounded mb-7'
-      onPress={() => navigation.navigate('Agendamento', { horario: data, dia: diaSelecionado, indexHora: indexHora})}
+      onPress={() => navigation.navigate('Agendamento', { horario: data, dia: diaSelecionado, indexHora, indexDia, })}
     >
       <View className='w-ful px-4 h-12 flex-row items-center justify-between bg-Cblue-300'>
         <Text className='text-lg text-white'>Horário para:</Text>

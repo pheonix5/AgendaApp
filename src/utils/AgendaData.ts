@@ -61,16 +61,16 @@ export type HorarioProps = {
 
 export type ListHorarioProps = HorarioProps[]
 
-
 export type DiasProps = {
   date: firebase.firestore.Timestamp;
-  dia: string;
+  diaString: string;
   horarios: ListHorarioProps;
 }
 
 export type ListDiasProps = DiasProps[]
 
 export type AgendaDataProps = {
+  idVehicle: string;
   bairro: string;
   dias: ListDiasProps;
 }

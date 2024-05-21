@@ -3,10 +3,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import firebase from '@/firebase/firebaseConnection';
 
 export type UserProps = {
-  userId: string
+  userId: string 
   avatar?: string;
   email: string;
   nome: string;
+  situacaoAgenda: string;
   adressSend: boolean;
   cep: string;
   bairro?: string;
@@ -35,6 +36,7 @@ export const useUserStorage = create<UserStoreProps>((set, get) => ({
     avatar: '',
     email: '',
     nome: '',
+    situacaoAgenda: '',
     adressSend: false,
     cep: '',
     bairro: '',
@@ -68,6 +70,7 @@ export const useUserStorage = create<UserStoreProps>((set, get) => ({
             avatar: '',
             email: email,
             nome: '',
+            situacaoAgenda: '',
             adressSend: false,
             cep: '',
             bairro: '',
@@ -82,6 +85,7 @@ export const useUserStorage = create<UserStoreProps>((set, get) => ({
                 avatar: '',
                 email: email,
                 nome: '',
+                situacaoAgenda: '',
                 adressSend: false,
                 cep: '',
                 bairro: '',

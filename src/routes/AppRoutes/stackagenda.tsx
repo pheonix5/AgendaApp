@@ -1,14 +1,14 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "@/app/pages/login/login";
 
-import Agenda from "@/app/pages/agenda/agenda";
+import Agenda from "@/app/pages/agenda";
 import Agendamento from "@/app/pages/agendamento/agendamento";
 import { DiasProps, HorarioProps } from "@/utils/AgendaData";
 
 
 export type AgendaStackParamList = {
   Agenda: undefined;
-  Agendamento: {horario: HorarioProps, dia?: DiasProps, indexHora?: number};
+  Agendamento: {horario: HorarioProps, dia?: DiasProps, indexHora: number, indexDia: number};
 }
 
 

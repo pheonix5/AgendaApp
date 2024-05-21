@@ -1,5 +1,5 @@
 
-import { UserProps, useUserStorage } from '@/store/user';
+import { UserProps } from '@/store/user';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { UserPropsForm } from '@/app/pages/confirmaPerfil/confirmaPerfil';
 import firebase from '@/firebase/firebaseConnection';
