@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import { View, TouchableWithoutFeedback, Text, TouchableOpacityProps, TouchableOpacity, ActivityIndicator } from 'react-native';
 

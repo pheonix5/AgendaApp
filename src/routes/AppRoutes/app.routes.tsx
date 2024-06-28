@@ -1,8 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { MaterialIcons } from '@expo/vector-icons';
-// import Perfil from "../../screens/Perfil/perfil";
-
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import StackAgenda from "./stackagenda";

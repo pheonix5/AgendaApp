@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { Text, TextProps } from 'react-native'
 import clsx from 'clsx'
 

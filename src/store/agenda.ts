@@ -10,3 +10,5 @@ export const useAgendaStore = create<AgendaStoreProps>((set) => ({
   agendaAll: null,
   setAgendaAll: (agendaAll) => set({ agendaAll }),
 }))
+
+
