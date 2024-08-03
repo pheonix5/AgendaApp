@@ -1,14 +1,18 @@
-
-import { UserProps } from '@/store/user';
+import { UserProps } from "@/store/user";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { UserPropsForm } from '@/app/pages/confirmaPerfil/confirmaPerfil';
-import firebase from '@/firebase/firebaseConnection';
+import { UserPropsForm } from "@/app/pages/confirmaPerfil/confirmaPerfil";
+import firebase from "@/firebase/firebaseConnection";
 
-
-export async function uploadImage(imageUri: string, dir: string, userId: string, isDoc?: boolean, docName?: string) {
+export async function uploadImage(
+  imageUri: string,
+  dir: string,
+  userId: string,
+  isDoc?: boolean,
+  docName?: string
+) {
   if (!imageUri) return;
 
-  const pathPdfOrIgm = isDoc ? `docName${docName}` : 'img';
+  const pathPdfOrIgm = isDoc ? `docName${docName}` : "img";
 
   const response = await fetch(imageUri);
   const blob = await response.blob();
@@ -21,7 +25,7 @@ export async function uploadImage(imageUri: string, dir: string, userId: string,
     await uploadBytes(storageRef, blob);
     url = await getDownloadURL(storageRef);
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 
   return url;
@@ -36,13 +40,17 @@ export async function saveProfile(
   isDoc: boolean,
   docName: string,
   setUserData: (data: UserProps) => void,
-  setLoadSend: (value: boolean) => void,
+  setLoadSend: (value: boolean) => void
 ) {
-
   setLoadSend(true);
-  const urlAvatar = await uploadImage(pathAvatar, 'avatar', dataStore.userId);
-  const urlImage = await uploadImage(isDoc ? pathDocument : pathImageDoc, 'comprovante', dataStore.userId, isDoc, docName);
-
+  const urlAvatar = await uploadImage(pathAvatar, "avatar", dataStore.userId);
+  const urlImage = await uploadImage(
+    isDoc ? pathDocument : pathImageDoc,
+    "comprovante",
+    dataStore.userId,
+    isDoc,
+    docName
+  );
 
   const newUserdata = {
     userId: dataStore.userId,
@@ -57,12 +65,17 @@ export async function saveProfile(
     telefone: dataForm.celular,
   };
 
-  await firebase.firestore().collection('users').doc(dataStore.userId).update(newUserdata)
+  await firebase
+    .firestore()
+    .collection("users")
+    .doc(dataStore.userId)
+    .update(newUserdata)
     .then(() => {
       const updatedUserData: UserProps = {
         ...newUserdata,
+        situacaoAgenda: dataStore?.situacaoAgenda,
         email: dataStore?.email!,
-        imageAdress: newUserdata.imageAdress || '',
+        imageAdress: newUserdata.imageAdress || "",
         bairro: newUserdata.bairro || undefined,
       };
       setUserData(updatedUserData);
@@ -71,8 +84,7 @@ export async function saveProfile(
       return setUserData(updatedUserData);
     })
     .catch((error) => {
-      console.log('Erro ao salvar perfil', error);
+      console.log("Erro ao salvar perfil", error);
       setLoadSend(false);
-    })
-
+    });
 }

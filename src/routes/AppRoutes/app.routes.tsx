@@ -1,11 +1,15 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import StackAgenda from "./stackagenda";
 import Perfil from "@/app/pages/perfil/perfil";
 
-const Tab = createBottomTabNavigator();
+export type TabHomeParamList = {
+  StackAgenda: undefined;
+  Perfil: undefined;
+};
+
+const Tab = createBottomTabNavigator<TabHomeParamList>();
 
 export default function TabHome() {
   return (
@@ -14,28 +18,33 @@ export default function TabHome() {
         headerShown: false,
         tabBarShowLabel: true,
         tabBarStyle: {
-          backgroundColor: '#FFF',
+          backgroundColor: "#FFF",
           borderTopWidth: 0,
         },
-        tabBarActiveTintColor: '#BE1522',
-        tabBarInactiveTintColor: '#121212',
+        tabBarActiveTintColor: "#BE1522",
+        tabBarInactiveTintColor: "#121212",
         tabBarLabelStyle: {
           fontSize: 15,
           color: "#121212",
-          fontWeight: '500'
+          fontWeight: "500",
         },
         tabBarHideOnKeyboard: true,
       }}
     >
-
       <Tab.Screen
         name="StackAgenda"
         component={StackAgenda}
         options={{
-          title: 'Agenda',
+          title: "Agenda",
           tabBarIcon: ({ color, size }) => {
-            return <MaterialCommunityIcons name="calendar-plus" color={color} size={size} />
-          }
+            return (
+              <MaterialCommunityIcons
+                name="calendar-plus"
+                color={color}
+                size={size}
+              />
+            );
+          },
         }}
       />
 
@@ -43,12 +52,18 @@ export default function TabHome() {
         name="Perfil"
         component={Perfil}
         options={{
-          title: 'Perfil',
+          title: "Perfil",
           tabBarIcon: ({ color, size }) => {
-            return <MaterialCommunityIcons name="account-edit" color={color} size={size} />
-          }
+            return (
+              <MaterialCommunityIcons
+                name="account-edit"
+                color={color}
+                size={size}
+              />
+            );
+          },
         }}
       />
     </Tab.Navigator>
-  )
+  );
 }

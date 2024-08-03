@@ -44,6 +44,7 @@ export type AgendamentoProps = {
   horaAgendamento: string;
   status: string;
   tipoServico: string;
+  idVihicle?: string;
   userAgendamento: UserAgendaProps;
 };
 
@@ -57,7 +58,7 @@ const SERVICES = [
 export default function Agendamento() {
   const navigation =
     useNavigation<NativeStackNavigationProp<AgendaStackParamList>>();
-  const [service, setService] = useState("");
+  const [service, setService] = useState<string>(""); // Provide a default value of type string
   const [invalidService, setInvalidService] = useState(false);
   const [loading, setLoading] = useState(false);
   const { agendaAll, setAgendaAll } = useAgendaStore();
@@ -92,13 +93,14 @@ export default function Agendamento() {
       diaAgendamento: DataCompleta,
       diaSemana: dayWeek,
       horaAgendamento: horario.horario,
-      status: "pendente",
+      status: "agendado",
       tipoServico: service,
+      idVihicle: agendaAll?.idVehicle,
       userAgendamento: {
         userId: userData?.userId,
         email: userData?.email,
         nome: userData?.nome,
-        situacaoAgenda: userData?.situacaoAgenda,
+        situacaoAgenda: "agendado",
         cep: userData?.cep,
         bairro: userData?.bairro,
         cpf: userData?.cpf,
@@ -136,6 +138,15 @@ export default function Agendamento() {
         .collection("vehicles")
         .doc(agendaAll?.idVehicle)
         .update(updatedVehicle);
+
+      await firebase
+        .firestore()
+        .collection("users")
+        .doc(userData.userId)
+        .update({
+          ...userData,
+          situacaoAgenda: "agendado",
+        });
       Alert.alert(
         "Agendamento realizado com sucesso!",
         "Você precisa confirmar a sua presença na tela meu agendamento.",

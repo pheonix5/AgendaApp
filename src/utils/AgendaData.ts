@@ -51,8 +51,16 @@ export function getDayWeek(date: firebase.firestore.Timestamp) {
   return format(date.toDate(), "eeee", { locale: ptBR });
 }
 
+export function getDayWeekDate(date: Date) {
+  return format(date, "eeee", { locale: ptBR });
+}
+
 export function formatData(date: firebase.firestore.Timestamp) {
   return format(date.toDate(), "dd/MM/yyyy", { locale: ptBR });
+}
+
+export function formatDataDate(date: Date) {
+  return format(date, "dd/MM/yyyy", { locale: ptBR });
 }
 
 export type HorarioProps = {

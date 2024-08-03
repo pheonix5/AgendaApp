@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { useUserStorage } from "@/store/user";
+import { UserProps, useUserStorage } from "@/store/user";
 import firebase from "@/firebase/firebaseConnection";
 import { View, Text, ActivityIndicator } from "react-native";
 
 import { DiasProps, ListHorarioProps, getDayWeek } from "@/utils/AgendaData";
-
+import { useIsFocused } from "@react-navigation/native";
 import { startOfWeek, endOfWeek } from "date-fns";
 
 import { AgendaDataProps } from "@/utils/AgendaData";
 import AgendaComponent from "./Agenda";
 import { useAgendaStore } from "@/store/agenda";
-import { ImageRelogioBack } from "@/app/components/imageRelogioBack/imageRelogioBack";
-import { HeaderTittle } from "@/app/components/headerTittle/headerTitle";
+import { ImageBackGroundCustom } from "@/app/components/imageBackGroundCustom/imageBackGroundCustom";
+import { Header } from "@/app/components/header";
 import {
   CardAgenda,
   CardAgendaProps,
 } from "@/app/components/cardAgenda/cardAgenda";
-import { AgendamentoProps } from "../agendamento/agendamento";
 
 const startOfThisWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
 const endOfThisWeek = endOfWeek(new Date(), { weekStartsOn: 1 });
 
+const STATUS = ["agendado", "confirmado"];
+
 export default function Agenda() {
+  const isFocused = useIsFocused();
   const [selected, setSelect] = useState("segunda-feira");
   const [agendaDataWeek, setAgendaDataWeek] = useState<AgendaDataProps[]>([]);
   const [horarios, setHorarios] = useState<ListHorarioProps>([]);
@@ -31,19 +33,62 @@ export default function Agenda() {
   const [agendamento, setAgendamento] = useState<CardAgendaProps | null>(null);
   const [loadingGetAgendamento, setLoadingGetAgendamento] = useState(false);
 
-  const { userData } = useUserStorage();
+  const { userData, setUserData, getUserAsyncStorage, setUserAsyncStorage } =
+    useUserStorage();
+
+  const condicaoAgenda =
+    userData?.situacaoAgenda.includes("confirmado") ||
+    userData?.situacaoAgenda.includes("agendado");
 
   useEffect(() => {
-    const getAgenda = async () => {
-      try {
-        const snapshot = await firebase
-          .firestore()
-          .collection("vehicles")
-          .where("bairro", "==", userData?.bairro)
-          .get();
+    let isActive = true;
 
-        const filteredData = [] as AgendaDataProps[];
-        const response = snapshot.docs.map((doc) => {
+    const initializeData = async () => {
+      await fetchUserData();
+      if (isActive) {
+        if (condicaoAgenda) {
+          await getAgendamentoUser();
+        } else {
+          await getAgenda();
+        }
+      }
+    };
+
+    initializeData();
+
+    return () => {
+      isActive = false;
+    };
+  }, [userData?.situacaoAgenda, isFocused]);
+
+  const fetchUserData = async () => {
+    const userAsync = await getUserAsyncStorage();
+    try {
+      if (userAsync?.userId) {
+        const userDoc = await firebase
+          .firestore()
+          .collection("users")
+          .doc(userAsync.userId)
+          .get();
+        const userDB = userDoc.data() as UserProps;
+        setUserData(userDB);
+        await setUserAsyncStorage(userDB);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar dados do usuário: ", error);
+    }
+  };
+
+  const getAgenda = async () => {
+    try {
+      const snapshot = await firebase
+        .firestore()
+        .collection("vehicles")
+        .where("bairro", "==", userData?.bairro)
+        .get();
+
+      const filteredData = snapshot.docs
+        .map((doc) => {
           const data = doc.data() as AgendaDataProps;
           const validDays = data.dias.filter(
             (dia) =>
@@ -51,46 +96,49 @@ export default function Agenda() {
               dia.date.toDate() <= endOfThisWeek
           );
           if (validDays.length > 0) {
-            filteredData.push({
+            return {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              //@ts-expect-error
+              idVehicle: doc.id,
               ...data,
               dias: validDays,
-            });
+            } as AgendaDataProps;
           }
-          return {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-expect-error
-            idVehicle: doc.id,
-            ...data,
-          } as AgendaDataProps;
-        });
-        setAgendaDataWeek(filteredData);
-        setAgendaAll(response[0]);
-      } catch (error) {
-        console.error("Erro ao buscar dados:", error);
-      }
-    };
+          return null;
+        })
+        .filter(Boolean) as AgendaDataProps[];
 
-    if (userData?.situacaoAgenda?.includes("agendado")) {
-      getAgendamentoUser();
-    } else {
-      getAgenda();
+      setAgendaDataWeek(filteredData);
+      setAgendaAll(filteredData[0]);
+    } catch (error) {
+      console.error("Erro ao buscar dados da agenda:", error);
     }
-  }, []);
+  };
 
-  async function getAgendamentoUser() {
+  const getAgendamentoUser = async () => {
     setLoadingGetAgendamento(true);
-    await firebase
-      .firestore()
-      .collection("agendamento")
-      .get()
-      .then((response) => {
-        setAgendamento(response.docs[0].data() as CardAgendaProps);
-      })
-      .catch((error) => {
-        console.log("erro ao buscar agendamento: ", error);
-      });
-    setLoadingGetAgendamento(false);
-  }
+    try {
+      const response = await firebase
+        .firestore()
+        .collection("agendamento")
+        .where("userAgendamento.userId", "==", userData?.userId)
+        .where("status", "in", STATUS)
+        .get();
+      if (!response.empty) {
+        let agendamentoData = {
+          id: response.docs[0].id,
+          ...response.docs[0].data(),
+        } as CardAgendaProps;
+        setAgendamento(agendamentoData);
+      } else {
+        setAgendamento(null);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar agendamento:", error);
+    } finally {
+      setLoadingGetAgendamento(false);
+    }
+  };
 
   function handleSelectDay(selectedDay: string) {
     setSelect(selectedDay);
@@ -109,7 +157,7 @@ export default function Agenda() {
     }
   }
 
-  if (userData?.situacaoAgenda?.includes("agendado")) {
+  if (condicaoAgenda) {
     if (loadingGetAgendamento && !agendamento) {
       return (
         <ActivityIndicator
@@ -121,10 +169,12 @@ export default function Agenda() {
 
     return (
       <View className="flex-1 px-4 py-2">
-        <ImageRelogioBack />
-        <HeaderTittle title="Meu Agendamento" className="self-start" />
+        <ImageBackGroundCustom source={require("@/assets/bgAgenda.jpg")} />
+        <Header>
+          <Header.Title title="Meu Agendamento" />
+        </Header>
         <Text className="text-Cgray-200 font-titulo text-xl my-2">
-          {userData.bairro}
+          {userData?.bairro}
         </Text>
 
         {agendamento ? <CardAgenda agendamento={agendamento} /> : null}

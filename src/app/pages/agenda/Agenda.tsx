@@ -1,13 +1,21 @@
-import clsx from 'clsx';
-import { useUserStorage } from '@/store/user';
-import { View, Text, SafeAreaView, ScrollView, Pressable, FlatList, StatusBar, ImageBackground } from 'react-native';
+import clsx from "clsx";
+import { useUserStorage } from "@/store/user";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  Pressable,
+  FlatList,
+  StatusBar,
+  ImageBackground,
+} from "react-native";
 
-import { DiasProps, ListHorarioProps, getDayWeek } from '@/utils/AgendaData';
+import { DiasProps, ListHorarioProps, getDayWeek } from "@/utils/AgendaData";
 
-
-import { AgendaDataProps } from '@/utils/AgendaData';
-import { ListHorarios } from '@/app/components/ListHorarios/ListHorarios';
-import { HeaderTittle } from '@/app/components/headerTittle/headerTitle';
+import { AgendaDataProps } from "@/utils/AgendaData";
+import { ListHorarios } from "@/app/components/ListHorarios/ListHorarios";
+import { Header } from "@/app/components/header";
 
 interface IAgendaComponent {
   agendaDataWeek: AgendaDataProps[];
@@ -17,64 +25,106 @@ interface IAgendaComponent {
   horarios: ListHorarioProps;
   indexDia: number;
   diaSelecionado: DiasProps;
-
 }
 
-
-export default function AgendaComponent({ agendaDataWeek, selected, handleSelectDay, setIndexDia, diaSelecionado, horarios, indexDia }: IAgendaComponent) {
-  const { userData } = useUserStorage()
+export default function AgendaComponent({
+  agendaDataWeek,
+  selected,
+  handleSelectDay,
+  setIndexDia,
+  diaSelecionado,
+  horarios,
+  indexDia,
+}: IAgendaComponent) {
+  const { userData } = useUserStorage();
   return (
-    <SafeAreaView className='flex-1 py-1' style={{ marginTop: StatusBar.currentHeight }}>
+    <SafeAreaView
+      className="flex-1 py-1"
+      style={{ marginTop: StatusBar.currentHeight }}
+    >
       <ImageBackground
-        source={require('@/assets/bgAgenda.jpg')}
-        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, paddingHorizontal: 16 }}
+        source={require("@/assets/bgAgenda.jpg")}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          paddingHorizontal: 16,
+        }}
       >
-        <View className='w-full gap-1 mb-3'>
-          <HeaderTittle
-            title='Horários Disponíveis'
-          />
-          <Text className='text-xl font-titulo text-Cgray-200'>{userData?.bairro}</Text>
+        <View className="w-full gap-1 mb-3">
+          <Header>
+            <Header.Title title="Horários Disponíveis" />
+          </Header>
+          <Text className="text-xl font-titulo text-Cgray-200">
+            {userData?.bairro}
+          </Text>
         </View>
 
-        <View className='w-full bg-[#e0ecf1] rounded-md'>
+        <View className="w-full bg-[#e0ecf1] rounded-md">
           <ScrollView
             horizontal
-            style={{ paddingHorizontal: 4, width: '100%' }}
+            style={{ paddingHorizontal: 4, width: "100%" }}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ height: 40 }}
           >
             {agendaDataWeek[0]?.dias?.map((dias, index) => (
               <Pressable
                 key={index}
-                className={clsx('h-full w-36 wflex-row justify-center items-center px-4',
-                  index !== agendaDataWeek.length + 1 && 'border-r border-Cgray-300',
-                  selected === getDayWeek(dias.date) ? 'bg-Cgray-300' : 'bg-transparent',
-                  index === 0 ? 'rounded-tl-md rounded-bl-md' : index === agendaDataWeek.length - 1 ? 'rounded-tr-md rounded-br-md' : 'border-none'
+                className={clsx(
+                  "h-full w-36 wflex-row justify-center items-center px-4",
+                  index !== agendaDataWeek[0]?.dias?.length - 1 &&
+                    "border-r border-gray-600",
+                  selected === getDayWeek(dias.date)
+                    ? "bg-Cgray-300"
+                    : "bg-transparent",
+                  index === 0
+                    ? "rounded-tl-md rounded-bl-md"
+                    : index === agendaDataWeek[0]?.dias?.length - 1
+                      ? "rounded-tr-md rounded-br-md"
+                      : "border-none"
                 )}
                 onPress={() => {
-                  handleSelectDay(getDayWeek(dias.date))
-                  setIndexDia(index)
+                  handleSelectDay(getDayWeek(dias.date));
+                  setIndexDia(index);
                 }}
               >
-                <Text className={clsx('text-sm font-titulo',
-                  selected === getDayWeek(dias.date) ? 'text-white' : 'text-Cgray-300'
-                )}>{getDayWeek(dias.date).toUpperCase()}</Text>
+                <Text
+                  className={clsx(
+                    "text-sm font-titulo",
+                    selected === getDayWeek(dias.date)
+                      ? "text-white"
+                      : "text-Cgray-300"
+                  )}
+                >
+                  {getDayWeek(dias.date).toUpperCase()}
+                </Text>
               </Pressable>
             ))}
           </ScrollView>
         </View>
 
-        <Text className='mt-2 text-lg text-Cgray-200 font-medium'>Selecione o horário</Text>
+        <Text className="mt-2 text-lg text-Cgray-200 font-medium">
+          Selecione o horário
+        </Text>
 
         <FlatList
           data={horarios}
           keyExtractor={(item) => item.horario}
           renderItem={({ item, index }) => {
-            return <ListHorarios data={item} diaSelecionado={diaSelecionado} indexHora={index} indexDia={indexDia} />
+            return (
+              <ListHorarios
+                data={item}
+                diaSelecionado={diaSelecionado}
+                indexHora={index}
+                indexDia={indexDia}
+              />
+            );
           }}
           contentContainerStyle={{ paddingVertical: 8 }}
         />
       </ImageBackground>
     </SafeAreaView>
-  )
+  );
 }
