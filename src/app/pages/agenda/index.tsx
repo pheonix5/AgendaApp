@@ -30,7 +30,7 @@ export default function Agenda() {
   const [horarios, setHorarios] = useState<ListHorarioProps>([]);
   const [indexDia, setIndexDia] = useState<number>(0);
   const [diaSelecionado, setDiaSelecionado] = useState<DiasProps>();
-  const { setAgendaAll } = useAgendaStore();
+  const { setAgendaAll, agendaAll } = useAgendaStore();
   const [agendamento, setAgendamento] = useState<CardAgendaProps | null>(null);
   const [loadingGetAgendamento, setLoadingGetAgendamento] = useState(false);
 
@@ -56,6 +56,7 @@ export default function Agenda() {
     };
 
     initializeData();
+    console.log("agendavazia teste -> ", agendaAll);
 
     return () => {
       isActive = false;
@@ -183,8 +184,8 @@ export default function Agenda() {
     );
   }
 
-  if (!agendaDataWeek) {
-    <AlertaAgendaVazia />;
+  if (!agendaAll) {
+    return <AlertaAgendaVazia />;
   }
 
   return (

@@ -18,18 +18,13 @@ export default function TabHome() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarShowLabel: true,
+        tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: "#FFF",
+          backgroundColor: "#334155",
           borderTopWidth: 0,
         },
-        tabBarActiveTintColor: "#BE1522",
-        tabBarInactiveTintColor: "#121212",
-        tabBarLabelStyle: {
-          fontSize: 15,
-          color: "#121212",
-          fontWeight: "500",
-        },
+        tabBarActiveTintColor: "#67e8f9",
+        tabBarInactiveTintColor: "#f5f5f5",
         tabBarHideOnKeyboard: true,
       }}
     >
@@ -51,6 +46,21 @@ export default function TabHome() {
       />
 
       <Tab.Screen
+        name="StackHistorico"
+        component={StackHistorico}
+        options={{
+          title: "Agendamentos",
+          tabBarLabelStyle: {
+            fontSize: 13,
+            fontWeight: "bold",
+          },
+          tabBarIcon: ({ color, size }) => {
+            return <FontAwesome name="list-ul" color={color} size={22} />;
+          },
+        }}
+      />
+
+      <Tab.Screen
         name="Perfil"
         component={Perfil}
         options={{
@@ -63,21 +73,6 @@ export default function TabHome() {
                 size={size}
               />
             );
-          },
-        }}
-      />
-
-      <Tab.Screen
-        name="StackHistorico"
-        component={StackHistorico}
-        options={{
-          title: "Agendamentos",
-          tabBarLabelStyle: {
-            fontSize: 13,
-            fontWeight: "bold",
-          },
-          tabBarIcon: ({ color, size }) => {
-            return <FontAwesome name="list-ul" color={color} size={size} />;
           },
         }}
       />

@@ -24,6 +24,7 @@ import { ImageBackGroundCustom } from "@/app/components/imageBackGroundCustom/im
 import firebase from "firebase/compat";
 import { useAgendaStore } from "@/store/agenda";
 import { UserProps, useUserStorage } from "@/store/user";
+import Constants from "expo-constants";
 
 type DetalheAgendamentoRouteProp = RouteProp<
   AgendaStackParamList,
@@ -148,15 +149,18 @@ export default function DetalheAgenda() {
   }
 
   return (
-    <View className="flex-1 px-6">
+    <View
+      className="flex-1 px-6"
+      style={{ paddingTop: Constants.statusBarHeight - 10 }}
+    >
       <ImageBackGroundCustom
         source={require("@/assets/fundoDetalheAgenda.png")}
       />
 
-      <Header className="flex-row gap-10 mt-4">
+      <Header className="flex-row gap-10 my-4">
         <TouchableOpacity onPress={navigation.goBack}>
           <Header.Icon>
-            <FontAwesome6 name="circle-arrow-left" size={24} color="gray" />
+            <FontAwesome6 name="circle-arrow-left" size={28} color="gray" />
           </Header.Icon>
         </TouchableOpacity>
         <Header.Title title="Agendamento" className="text-3xl" />

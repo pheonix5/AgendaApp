@@ -10,7 +10,7 @@ import {
   CardAgendaProps,
 } from "@/app/components/cardAgenda/cardAgenda";
 import { ImageBackGroundCustom } from "@/app/components/imageBackGroundCustom/imageBackGroundCustom";
-import { AgendaDataProps, AgendamentosFakes } from "@/utils/AgendaData";
+import { AgendamentosFakes } from "@/utils/AgendaData";
 
 export default function MeusAgendamentos() {
   const { userData } = useUserStorage();
