@@ -1,6 +1,8 @@
 import firebase from "firebase/compat";
+import "firebase/firestore";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { CardAgendaProps } from "@/app/components/cardAgenda/cardAgenda";
 
 export const AgendaUtil = [
   {
@@ -44,6 +46,96 @@ export const AgendaUtil = [
         ],
       },
     ],
+  },
+];
+
+function createTimestamp(
+  seconds: number,
+  nanoseconds: number
+): firebase.firestore.Timestamp {
+  return new firebase.firestore.Timestamp(seconds, nanoseconds);
+}
+
+export const AgendamentosFakes = [
+  {
+    id: "1",
+    status: "agendado",
+    idVihicle: "M2CzPeM6OP81NKgs89fA",
+    diaAgendamento: "03/08/2024",
+    tipoServico: "Clareamento",
+    userAgendamento: {
+      cpf: "376.627.270-50",
+      nome: "Lucas Felix ",
+      cep: "24903-465",
+      bairro: "Flamengo",
+      situacaoAgenda: "agendado",
+      telefone: "(61) 99441-6449",
+      email: "lucas@teste.com",
+      userId: "0gQ2uANqnBbXprNmCxWRkwY4K312",
+    },
+    date: createTimestamp(1722654000, 577000000),
+    diaSemana: "sábado",
+    horaAgendamento: "14:00",
+  },
+  {
+    id: "2",
+    status: "atendido",
+    idVihicle: "M2CzPeM6OP81NKgs89fA",
+    diaAgendamento: "03/08/2024",
+    tipoServico: "Clareamento",
+    userAgendamento: {
+      cpf: "376.627.270-50",
+      nome: "Lucas Felix ",
+      cep: "24903-465",
+      bairro: "Flamengo",
+      situacaoAgenda: "atendido",
+      telefone: "(61) 99441-6449",
+      email: "lucas@teste.com",
+      userId: "0gQ2uANqnBbXprNmCxWRkwY4K312",
+    },
+    date: createTimestamp(1722654000, 577000000),
+    diaSemana: "sábado",
+    horaAgendamento: "14:00",
+  },
+  {
+    id: "3",
+    status: "cancelado",
+    idVihicle: "M2CzPeM6OP81NKgs89fA",
+    diaAgendamento: "03/08/2024",
+    tipoServico: "Clareamento",
+    userAgendamento: {
+      cpf: "376.627.270-50",
+      nome: "Lucas Felix ",
+      cep: "24903-465",
+      bairro: "Flamengo",
+      situacaoAgenda: "cancelado",
+      telefone: "(61) 99441-6449",
+      email: "lucas@teste.com",
+      userId: "0gQ2uANqnBbXprNmCxWRkwY4K312",
+    },
+    date: createTimestamp(1722654000, 577000000),
+    diaSemana: "sábado",
+    horaAgendamento: "14:00",
+  },
+  {
+    id: "4",
+    status: "confirmado",
+    idVihicle: "M2CzPeM6OP81NKgs89fA",
+    diaAgendamento: "03/08/2024",
+    tipoServico: "Clareamento",
+    userAgendamento: {
+      cpf: "376.627.270-50",
+      nome: "Lucas Felix ",
+      cep: "24903-465",
+      bairro: "Flamengo",
+      situacaoAgenda: "confirmado",
+      telefone: "(61) 99441-6449",
+      email: "lucas@teste.com",
+      userId: "0gQ2uANqnBbXprNmCxWRkwY4K312",
+    },
+    date: createTimestamp(1722654000, 577000000),
+    diaSemana: "sábado",
+    horaAgendamento: "14:00",
   },
 ];
 

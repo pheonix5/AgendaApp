@@ -14,6 +14,6 @@ export function ImageBackGroundCustom({ source }: ImageBackgroundCustomProps) {
         bottom: 0,
         paddingHorizontal: 16,
       }}
-    ></ImageBackground>
+    />
   );
 }

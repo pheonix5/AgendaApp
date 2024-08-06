@@ -16,6 +16,7 @@ import {
   CardAgenda,
   CardAgendaProps,
 } from "@/app/components/cardAgenda/cardAgenda";
+import AlertaAgendaVazia from "../alertaAgendaVazia/alertaAgendaVazia";
 
 const startOfThisWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
 const endOfThisWeek = endOfWeek(new Date(), { weekStartsOn: 1 });
@@ -180,6 +181,10 @@ export default function Agenda() {
         {agendamento ? <CardAgenda agendamento={agendamento} /> : null}
       </View>
     );
+  }
+
+  if (!agendaDataWeek) {
+    <AlertaAgendaVazia />;
   }
 
   return (

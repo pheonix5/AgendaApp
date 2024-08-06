@@ -31,9 +31,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <NativeBaseProvider>
-        <GestureHandlerRootView
-          style={{ flex: 1, paddingTop: Constants.statusBarHeight }}
-        >
+        <GestureHandlerRootView style={{ flex: 1 }}>
           <StatusBar barStyle="dark-content" translucent />
           <Routes />
         </GestureHandlerRootView>

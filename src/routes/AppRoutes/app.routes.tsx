@@ -1,12 +1,14 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
 import StackAgenda from "./stackagenda";
 import Perfil from "@/app/pages/perfil/perfil";
+import StackHistorico from "./stackHistorico";
 
 export type TabHomeParamList = {
   StackAgenda: undefined;
   Perfil: undefined;
+  StackHistorico: undefined;
 };
 
 const Tab = createBottomTabNavigator<TabHomeParamList>();
@@ -61,6 +63,21 @@ export default function TabHome() {
                 size={size}
               />
             );
+          },
+        }}
+      />
+
+      <Tab.Screen
+        name="StackHistorico"
+        component={StackHistorico}
+        options={{
+          title: "Agendamentos",
+          tabBarLabelStyle: {
+            fontSize: 13,
+            fontWeight: "bold",
+          },
+          tabBarIcon: ({ color, size }) => {
+            return <FontAwesome name="list-ul" color={color} size={size} />;
           },
         }}
       />

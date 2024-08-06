@@ -8,8 +8,7 @@ import { UserProps, useUserStorage } from "@/store/user";
 import { theme } from "@/theme/theme";
 import { Avatar } from "@/app/components/Avatar/Avatar";
 import { ModalPicker } from "@/app/components/ModalPicker";
-import { ButtonRoot } from "@/app/components/button/root";
-import { ButtonText } from "@/app/components/button/text";
+import Constants from "expo-constants";
 import { InputLabel } from "@/app/components/input/label";
 import { TabHomeParamList } from "@/routes/AppRoutes/app.routes";
 import {
@@ -74,7 +73,10 @@ export default function Perfil() {
   }
 
   return (
-    <View className="flex-1 pt-6">
+    <View
+      className="flex-1"
+      style={{ paddingTop: Constants.statusBarHeight + 10 }}
+    >
       <TouchableOpacity className="px-6 items-end" onPress={handleSair}>
         <AntDesign name="logout" size={26} color={theme.color.Cblue[500]} />
       </TouchableOpacity>

@@ -154,7 +154,7 @@ export default function DetalheAgenda() {
       />
 
       <Header className="flex-row gap-10 mt-4">
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={navigation.goBack}>
           <Header.Icon>
             <FontAwesome6 name="circle-arrow-left" size={24} color="gray" />
           </Header.Icon>
