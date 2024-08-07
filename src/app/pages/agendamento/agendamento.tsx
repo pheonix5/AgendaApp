@@ -104,6 +104,7 @@ export default function Agendamento() {
         cep: userData?.cep,
         bairro: userData?.bairro,
         cpf: userData?.cpf,
+        tipo: userData?.tipo,
         telefone: userData?.telefone,
       },
     };

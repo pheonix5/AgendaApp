@@ -63,7 +63,8 @@ export function CardAgenda({ agendamento }: Agedamento) {
             agendamento.status === STATUS.AGENDADO && "bg-orange-500",
             agendamento.status === STATUS.CONFIRMADO && "bg-Cblue-300",
             agendamento.status === STATUS.ATENDIDO && "bg-green-600",
-            agendamento.status === STATUS.CANCELADO && "bg-red-600"
+            agendamento.status === STATUS.CANCELADO && "bg-red-600",
+            agendamento.status === STATUS.FALTOU && "bg-red-600"
           )}
         />
         <View>
@@ -83,7 +84,8 @@ export function CardAgenda({ agendamento }: Agedamento) {
             agendamento.status === STATUS.AGENDADO && "text-orange-500",
             agendamento.status === STATUS.CONFIRMADO && "text-Cblue-300",
             agendamento.status === STATUS.ATENDIDO && "text-green-600",
-            agendamento.status === STATUS.CANCELADO && "text-red-600"
+            agendamento.status === STATUS.CANCELADO && "text-red-600",
+            agendamento.status === STATUS.FALTOU && "text-red-600"
           )}
         >
           {agendamento.status.toLocaleUpperCase()}

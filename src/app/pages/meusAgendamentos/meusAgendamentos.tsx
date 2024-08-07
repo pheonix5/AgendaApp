@@ -1,8 +1,18 @@
-import { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator, FlatList } from "react-native";
+import { useEffect, useMemo, useState } from "react";
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  FlatList,
+  TouchableOpacity,
+  Modal,
+} from "react-native";
 
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
+
+import { EvilIcons, FontAwesome6 } from "@expo/vector-icons";
+
 import { useUserStorage } from "@/store/user";
 import Constants from "expo-constants";
 import {
@@ -10,19 +20,30 @@ import {
   CardAgendaProps,
 } from "@/app/components/cardAgenda/cardAgenda";
 import { ImageBackGroundCustom } from "@/app/components/imageBackGroundCustom/imageBackGroundCustom";
-import { AgendamentosFakes } from "@/utils/AgendaData";
+import { theme } from "@/theme/theme";
+import { DatesSelected, calendarUtils } from "@/utils/calendarUtils";
+import { ModalCalendar } from "@/app/components/ModalCalendar/modalCalendar";
+import { DateData } from "react-native-calendars";
+
+import { Calendar } from "@/app/components/calendar/calendar";
+import dayjs from "dayjs";
+import isBeetWen from "dayjs/plugin/isBetween";
+
+dayjs.extend(isBeetWen);
 
 export default function MeusAgendamentos() {
   const { userData } = useUserStorage();
   const [loading, setLoading] = useState(false);
+  const [selectedDates, setSelectedDates] = useState({} as DatesSelected);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [listaAgenda, setListaAgenda] = useState<CardAgendaProps[] | null>(
     null
   );
 
   useEffect(() => {
-    // if (userData) {
-    //   getAgendamentoUser();
-    // }
+    if (userData) {
+      getAgendamentoUser();
+    }
   }, [userData]);
 
   async function getAgendamentoUser() {
@@ -50,7 +71,33 @@ export default function MeusAgendamentos() {
     }
   }
 
-  // console.log(JSON.stringify(listaAgenda, null, 2));
+  function handleSelectedDate(selectedDay: DateData) {
+    const dates = calendarUtils.orderStartsAtAndEndsAt({
+      startsAt: selectedDates.startsAt,
+      endsAt: selectedDates.endsAt,
+      selectedDay,
+    });
+
+    setSelectedDates(dates);
+  }
+
+  const agendamentoFiltrado = useMemo(() => {
+    if (!listaAgenda) {
+      return [];
+    }
+
+    if (!selectedDates.startsAt || !selectedDates.endsAt) {
+      return listaAgenda;
+    }
+
+    const startDate = dayjs(selectedDates.startsAt.dateString).startOf("day");
+    const endDate = dayjs(selectedDates.endsAt.dateString).endOf("day");
+
+    return listaAgenda.filter((agendamento) => {
+      const agendamentoDate = dayjs(agendamento.date.toDate());
+      return agendamentoDate.isBetween(startDate, endDate, null, "[]");
+    });
+  }, [listaAgenda, selectedDates]);
 
   if (loading) {
     return (
@@ -70,9 +117,40 @@ export default function MeusAgendamentos() {
         Histórico de Consultas
       </Text>
 
+      <View className="w-full flex-row justify-between items-center mb-3">
+        <Text className="text-lg font-medium text-Cgray-300">
+          Selecionar Data
+        </Text>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => setShowCalendar(true)}
+        >
+          <EvilIcons name="calendar" size={32} color={theme.color.Cgray[300]} />
+        </TouchableOpacity>
+      </View>
+
+      {selectedDates.startsAt && selectedDates.endsAt && (
+        <View className="w-full flex-row items-center justify-between">
+          <Text className="text-base text-Cgray-300 font-titulo">
+            {selectedDates.formatDatesInText}
+          </Text>
+
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => setSelectedDates({} as DatesSelected)}
+          >
+            <FontAwesome6
+              name="eraser"
+              size={22}
+              color={theme.color.Cblue[300]}
+            />
+          </TouchableOpacity>
+        </View>
+      )}
+
       <FlatList
-        data={AgendamentosFakes}
-        keyExtractor={(item) => item.id}
+        data={agendamentoFiltrado}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <>
             <CardAgenda agendamento={item} />
@@ -88,6 +166,20 @@ export default function MeusAgendamentos() {
         }}
         showsVerticalScrollIndicator={false}
       />
+
+      <ModalCalendar
+        title="Selecionar datas"
+        subtitle="Selecione a data de ida e volta da viagem"
+        visible={showCalendar}
+        onClose={() => setShowCalendar(false)}
+      >
+        <View className="gap-4 mt-4">
+          <Calendar
+            onDayPress={handleSelectedDate}
+            markedDates={selectedDates.dates}
+          />
+        </View>
+      </ModalCalendar>
     </View>
   );
 }

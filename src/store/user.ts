@@ -13,6 +13,7 @@ export type UserProps = {
   bairro?: string;
   confirmado: boolean;
   imageAdress: string;
+  tipo: string;
   cpf: string;
   telefone: string;
 };
@@ -42,6 +43,7 @@ export const useUserStorage = create<UserStoreProps>((set, get) => ({
     confirmado: false,
     imageAdress: "",
     cpf: "",
+    tipo: "",
     telefone: "",
   },
   loading: false,
@@ -83,6 +85,7 @@ export const useUserStorage = create<UserStoreProps>((set, get) => ({
               confirmado: false,
               imageAdress: "",
               cpf: "",
+              tipo: "user",
               telefone: "",
             })
             .then(() => {
@@ -98,6 +101,7 @@ export const useUserStorage = create<UserStoreProps>((set, get) => ({
                 confirmado: false,
                 imageAdress: "",
                 cpf: "",
+                tipo: "user",
                 telefone: "",
               };
               get().setUserData(user);

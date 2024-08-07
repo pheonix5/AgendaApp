@@ -56,7 +56,6 @@ export default function Agenda() {
     };
 
     initializeData();
-    console.log("agendavazia teste -> ", agendaAll);
 
     return () => {
       isActive = false;
@@ -170,7 +169,7 @@ export default function Agenda() {
     }
 
     return (
-      <View className="flex-1 px-4 py-2">
+      <View className="flex-1 px-4 py-4">
         <ImageBackGroundCustom source={require("@/assets/bgAgenda.jpg")} />
         <Header>
           <Header.Title title="Meu Agendamento" />

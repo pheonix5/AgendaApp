@@ -36,6 +36,7 @@ export enum STATUS {
   CONFIRMADO = "confirmado",
   CANCELADO = "cancelado",
   ATENDIDO = "atendido",
+  FALTOU = "faltou",
 }
 
 export default function DetalheAgenda() {
