@@ -126,7 +126,7 @@ export default function DetalheAgenda() {
           status: STATUS.CONFIRMADO,
           userAgendamento: {
             ...agendamento.userAgendamento,
-            situacaoAgenda: "confirmado",
+            situacaoAgenda: STATUS.CONFIRMADO,
           },
         });
 

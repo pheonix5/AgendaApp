@@ -72,8 +72,8 @@ export default function Agendamento() {
   });
   const dayWeek = getDayWeek(dia?.date!!);
 
-  console.log("indexDia: ", indexDia, "indexHora: ", indexHora);
-  console.log("AgendaID: ", agendaAll?.idVehicle);
+  // console.log("indexDia: ", indexDia, "indexHora: ", indexHora);
+  // console.log("AgendaID: ", agendaAll?.idVehicle);
 
   function handleSelect(itemValue: string) {
     setService(itemValue);

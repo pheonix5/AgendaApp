@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firebase from "@/firebase/firebaseConnection";
+import { useNavigation } from "@react-navigation/native";
 
 export type UserProps = {
   userId: string;
@@ -12,6 +13,7 @@ export type UserProps = {
   cep: string;
   bairro?: string;
   confirmado: boolean;
+  messageDoc?: string;
   imageAdress: string;
   tipo: string;
   cpf: string;
@@ -22,12 +24,12 @@ type UserStoreProps = {
   userData: UserProps | null;
   loading: boolean;
   setLoading: (loading: boolean) => void;
-  setUserData: (userData: UserProps) => void;
+  setUserData: (userData: UserProps | null) => void;
   setUserAsyncStorage: (userData: UserProps) => Promise<void>;
   getUserAsyncStorage: () => Promise<UserProps | undefined>;
   register: (email: string, senha: string, tipoAcao: string) => Promise<void>;
   login: (email: string, senha: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 };
 
 export const useUserStorage = create<UserStoreProps>((set, get) => ({
@@ -41,6 +43,7 @@ export const useUserStorage = create<UserStoreProps>((set, get) => ({
     cep: "",
     bairro: "",
     confirmado: false,
+    messageDoc: "",
     imageAdress: "",
     cpf: "",
     tipo: "",
@@ -83,6 +86,7 @@ export const useUserStorage = create<UserStoreProps>((set, get) => ({
               cep: "",
               bairro: "",
               confirmado: false,
+              messageDoc: "",
               imageAdress: "",
               cpf: "",
               tipo: "user",
@@ -99,6 +103,7 @@ export const useUserStorage = create<UserStoreProps>((set, get) => ({
                 cep: "",
                 bairro: "",
                 confirmado: false,
+                messageDoc: "",
                 imageAdress: "",
                 cpf: "",
                 tipo: "user",
@@ -147,9 +152,16 @@ export const useUserStorage = create<UserStoreProps>((set, get) => ({
   },
 
   logout: async () => {
-    await firebase.auth().signOut();
-    await AsyncStorage.clear();
-    set({ userData: null });
-    set({ loading: false });
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        await firebase.auth().signOut();
+        await AsyncStorage.clear();
+        get().setUserData(null);
+        get().setLoading(false);
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
   },
 }));

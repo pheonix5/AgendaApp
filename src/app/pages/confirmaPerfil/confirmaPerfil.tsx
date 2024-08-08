@@ -64,6 +64,7 @@ export default function ConfirmaPerfil() {
     handleSubmit,
     watch,
     setError,
+    setValue,
     formState: { errors },
   } = useForm<UserFormDataProps>({
     mode: "onChange",
@@ -113,6 +114,15 @@ export default function ConfirmaPerfil() {
       }
     }
   }, [userData]);
+
+  useEffect(() => {
+    if (userData?.cpf) {
+      setValue("nome", userData.nome);
+      setValue("cep", userData.cep);
+      setValue("cpf", userData.cpf);
+      setValue("celular", userData.telefone);
+    }
+  }, []);
 
   function handleModalPicker() {
     setModalVisible(true);
@@ -176,7 +186,7 @@ export default function ConfirmaPerfil() {
           <Controller
             control={control}
             name="nome"
-            render={({ field: { onChange } }) => (
+            render={({ field: { onChange, value } }) => (
               <Input.Root erroMessage={errors.nome?.message}>
                 <Input.Label
                   label="Nome Completo"
@@ -202,6 +212,7 @@ export default function ConfirmaPerfil() {
                     placeholderTextColor={theme.color.ligthGray[300]}
                     onFocus={() => handleFocus("nome")}
                     onBlur={() => handleBlur("nome")}
+                    value={value}
                   />
                 </Input.Container>
               </Input.Root>
@@ -232,6 +243,7 @@ export default function ConfirmaPerfil() {
                   />
                   <Input.Mask
                     type="zip-code"
+                    value={userData?.cep}
                     placeholder="CEP"
                     onChangeText={onChange}
                     errorMessage={errors.cep?.message}
@@ -254,6 +266,22 @@ export default function ConfirmaPerfil() {
           ) : docName ? (
             <Text className="text-black font-medium">{docName}</Text>
           ) : null}
+
+          {userData?.messageDoc && (
+            <View>
+              <View className="w-full flex-row gap-2">
+                <Text className="text-base font-medium text-Cgray-300">
+                  Status Envio:
+                </Text>
+                {!userData.confirmado &&
+                  userData.messageDoc !== "Em análise" && <Text>Negado</Text>}
+              </View>
+
+              <Text className="text-base font-medium text-Cgray-300">
+                {userData.messageDoc}
+              </Text>
+            </View>
+          )}
 
           <Button.Root
             onPress={handleModalPicker}
@@ -309,6 +337,7 @@ export default function ConfirmaPerfil() {
                     placeholderTextColor={theme.color.ligthGray[300]}
                     onFocus={() => handleFocus("cpf")}
                     onBlur={() => handleBlur("cpf")}
+                    value={userData?.cpf}
                   />
                 </Input.Container>
               </Input.Root>
@@ -350,6 +379,7 @@ export default function ConfirmaPerfil() {
                     placeholderTextColor={theme.color.ligthGray[300]}
                     onFocus={() => handleFocus("celular")}
                     onBlur={() => handleBlur("celular")}
+                    value={userData?.telefone}
                   />
                 </Input.Container>
               </Input.Root>

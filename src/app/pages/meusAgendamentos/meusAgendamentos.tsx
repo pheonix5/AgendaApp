@@ -57,7 +57,10 @@ export default function MeusAgendamentos() {
         let listAgenda = [] as CardAgendaProps[];
 
         response.forEach((doc) => {
-          listAgenda.push(doc.data() as CardAgendaProps);
+          listAgenda.push({
+            id: doc.id,
+            ...(doc.data() as Omit<CardAgendaProps, "id">),
+          });
         });
 
         setListaAgenda(listAgenda);
@@ -124,6 +127,7 @@ export default function MeusAgendamentos() {
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => setShowCalendar(true)}
+          className="p-1"
         >
           <EvilIcons name="calendar" size={32} color={theme.color.Cgray[300]} />
         </TouchableOpacity>
@@ -138,10 +142,11 @@ export default function MeusAgendamentos() {
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => setSelectedDates({} as DatesSelected)}
+            className="p-1"
           >
             <FontAwesome6
               name="eraser"
-              size={22}
+              size={24}
               color={theme.color.Cblue[300]}
             />
           </TouchableOpacity>
@@ -150,7 +155,7 @@ export default function MeusAgendamentos() {
 
       <FlatList
         data={agendamentoFiltrado}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <>
             <CardAgenda agendamento={item} />

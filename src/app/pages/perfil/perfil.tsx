@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import {
+  useNavigation,
+  NavigationProp,
+  StackActions,
+} from "@react-navigation/native";
 import firebase from "firebase/compat";
 
 import { UserProps, useUserStorage } from "@/store/user";
@@ -28,10 +32,16 @@ export default function Perfil() {
   const [avatar, setAvatar] = useState("");
 
   function handleSair() {
-    logout();
-    navigation.reset({
-      routes: [{ name: "StackAgenda" }],
-    });
+    logout()
+      .then(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "StackAgenda" }],
+        });
+      })
+      .catch((error) => {
+        console.log("error ao sair", error);
+      });
   }
 
   function handleModalPickerAvatar() {

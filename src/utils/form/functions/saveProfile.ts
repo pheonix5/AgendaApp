@@ -60,6 +60,7 @@ export async function saveProfile(
     cep: dataForm.cep,
     bairro: dataForm.bairro,
     confirmado: false,
+    messageDoc: "Em análise",
     imageAdress: urlImage,
     cpf: dataForm.cpf,
     telefone: dataForm.celular,
@@ -73,6 +74,7 @@ export async function saveProfile(
     .then(() => {
       const updatedUserData: UserProps = {
         ...newUserdata,
+        tipo: dataStore?.tipo,
         situacaoAgenda: dataStore?.situacaoAgenda,
         email: dataStore?.email!,
         imageAdress: newUserdata.imageAdress || "",

@@ -78,7 +78,7 @@ export function ModalPicker({
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: isAvatar ? [4, 4] : [4, 2],
+      aspect: isAvatar ? [4, 4] : [4, 4],
       quality: 1,
     });
 
@@ -101,7 +101,7 @@ export function ModalPicker({
     let photoResult = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: isAvatar ? [4, 4] : [4, 2],
+      aspect: isAvatar ? [4, 4] : [4, 4],
       quality: 1,
     });
 
